@@ -6,7 +6,7 @@
  * Time: 19:55
  */
 
-namespace Library\MVC;
+namespace LightPHP;
 
 
 class Template

@@ -6,7 +6,7 @@
  * Time: 19:54
  */
 
-namespace Library\MVC;
+namespace LightPHP;
 
 
 class Controller

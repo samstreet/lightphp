@@ -6,7 +6,7 @@
  * Time: 20:01
  */
 
-namespace Library\MVC\Exceptions;
+namespace LightPHP\Exceptions;
 
 use JsonSerializable;
 
