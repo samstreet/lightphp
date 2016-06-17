@@ -12,7 +12,7 @@
     },
     "autoload": {
         "psr-4": {
-            "LightPHP\\": "/src"
+            "LightPHP\\": "src/"
         }
     },
     "license": "MIT",
