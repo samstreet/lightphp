@@ -9,7 +9,12 @@
 namespace LightPHP\Exceptions;
 
 
-class RouteNotFoundException
+class RouteNotFoundException extends \Exception
 {
+
+    public function __construct()
+    {
+        parent::__construct("No Route Found");
+    }
 
 }

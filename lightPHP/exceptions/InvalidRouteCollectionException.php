@@ -14,7 +14,7 @@ class InvalidRouteCollectionException extends \Exception
 
     public function __construct()
     {
-        parent::__construct("");
+        parent::__construct("Routes must be array or Traversable");
     }
 
 }

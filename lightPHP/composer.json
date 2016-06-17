@@ -12,8 +12,8 @@
         "phpunit/phpunit": "^4.0"
     },
     "autoload": {
-        "psr-4": {
-            "LightPHP\\": "LightPHP"
+        "psr-0": {
+            "LightPHP\\": "lightPHP"
         }
     },
     "license": "MIT",
