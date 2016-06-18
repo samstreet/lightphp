@@ -34,6 +34,13 @@ class Router implements RouterInterface
         $this->methods[$name] = $callable;
     }
 
+    public function addRoutes($routes)
+    {
+        foreach($routes as $route){
+            $this->add($route["name"], $route["route"], $route["callable"]);
+        }
+    }
+
     public function dispatch(){
         $uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : "/";
 
