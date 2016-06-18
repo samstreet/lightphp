@@ -1,3 +1,3 @@
 # lightphp
 
-lightweight request and response
+lightweight router
