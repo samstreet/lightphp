@@ -16,110 +16,48 @@ class Router implements RouterInterface
 {
 
     protected $routes = array();
-
-    protected $namedRoutes = array();
+    protected $methods = array();
 
     protected $base = "";
 
-    public function __construct($routes, $base = null){
-        //$this->routes = $this->validateRoutes($routes) ? $routes : [];
+    public function __construct($base = null)
+    {
         $this->base = is_null($base) ? $_SERVER["HTTP_HOST"] : $base;
-
-        $this->addRoutes($routes);
     }
 
-    public function addRoutes($routes){
-        foreach($routes as $route) {
-            call_user_func_array(array($this, 'map'), $route);
+    /**
+     * @param $route string
+     * @param $method string
+     */
+    public function add($name, $route, $class = null){
+        $this->routes[$name] = $route;
+
+        if(false === is_null($class)){
+            $this->methods[$name] = $class;
         }
-    }
-
-    public function map($name, $type, $route, callable $callback){
-        try{
-            $this->routes[] = new Route($type, $name, $route, $callback);
-
-        }catch (\Exception $e){
-
-        }
-    }
-
-    public function match($name, $url = null){
-        if(is_null($url)){
-            $url = $_SERVER["REQUEST_URI"];
-        }
-
-        if(isset($this->routes[$name])){
-            die("route match");
-        }
-
-        $route = str_replace("/", "_", $url);
-
-
-        
-
     }
 
     public function dispatch(){
-        return true;
-    }
+        $uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : "/";
 
-    /**
-     * @return array
-     */
-    public function getNamedRoutes()
-    {
-        return $this->namedRoutes;
-    }
+        $matchedRoute = null;
+        $matchedClass = null;
 
-    /**
-     * @param array $namedRoutes
-     */
-    public function setNamedRoutes($namedRoutes)
-    {
-        $this->namedRoutes = $namedRoutes;
-    }
+        foreach ($this->routes as $key => $route) {
+            if(preg_match("#^$route$#", $uri)){
+                $matchedRoute = $this->routes[$key];
 
-
-
-    /**
-     * @return array
-     */
-    public function getRoutes()
-    {
-        return $this->routes;
-    }
-
-    public function parseRoute($url)
-    {
-        // TODO: Implement parseRoute() method.
-    }
-
-    public function formatRoute($url)
-    {
-        // TODO: Implement formatRoute() method.
-    }
-
-    public function parseRoutes($routeCollection)
-    {
-        // TODO: Implement parseRoutes() method.
-    }
-
-    public function validateRoutes($routes)
-    {
-        try{
-            if(!is_array($routes) && !$routes instanceof Traversable){
-                throw new InvalidRouteCollectionException();
+                if(array_key_exists($key, $this->methods)){
+                    $matchedClass = $this->methods[$key];
+                } else {
+                    $matchedClass = "Index";
+                }
             }
-
-            return true;
-
-        }catch (InvalidRouteCollectionException $ex){
-            return false;
         }
 
-        return false;
-
+        return $matchedClass();
     }
+
 
     public function validateRoute($route)
     {

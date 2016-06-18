@@ -11,15 +11,6 @@ namespace LightPHP\Interfaces;
 
 interface RouterInterface
 {
-    
-    public function parseRoute($url);
-    
-    public function formatRoute($url);
-
-    public function parseRoutes($routeCollection);
-
-    public function validateRoutes($routes);
-
     public function validateRoute($route);
 
 }
