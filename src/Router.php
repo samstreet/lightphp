@@ -29,33 +29,19 @@ class Router implements RouterInterface
      * @param $route string
      * @param $method string
      */
-    public function add($name, $route, $class = null){
+    public function add($name, $route, $callable){
         $this->routes[$name] = $route;
-
-        if(false === is_null($class)){
-            $this->methods[$name] = $class;
-        }
+        $this->methods[$name] = $callable;
     }
 
     public function dispatch(){
         $uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : "/";
 
-        $matchedRoute = null;
-        $matchedClass = null;
-
         foreach ($this->routes as $key => $route) {
             if(preg_match("#^$route$#", $uri)){
-                $matchedRoute = $this->routes[$key];
-
-                if(array_key_exists($key, $this->methods)){
-                    $matchedClass = $this->methods[$key];
-                } else {
-                    $matchedClass = "Index";
-                }
+                call_user_func($this->methods[$key]);
             }
         }
-
-        return $matchedClass();
     }
 
 
