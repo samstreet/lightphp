@@ -8,8 +8,9 @@
 
 namespace LightPHP;
 
+use LightPHP\Interfaces\AppInterface;
 
-class LightPHP
+class LightPHP implements AppInterface
 {
 
     protected $config = array();
@@ -18,7 +19,16 @@ class LightPHP
 
     public function __construct($config)
     {
-        $this->config = $config;
+        try{
+            $this->config = $this->validateConfig($config);
+            $this->setUp();
+        } catch (\Exception $e) {
+            die(var_dump($e->getMessage()));
+        }
+    }
+
+    public function setUp()
+    {
         $this->router = new Router();
         $this->router->addRoutes($this->config["routes"]);
     }
@@ -27,4 +37,23 @@ class LightPHP
     {
         $this->router->dispatch();
     }
+
+
+    #######################################
+    ## Start Interface methods
+    #######################################
+
+    public function validateConfig($config)
+    {
+        if(!is_array($config) && !$config instanceof Traversable){
+            throw new \LightPHP\Exceptions\InvalidConfigurationFileException();
+        }
+
+        return $config;
+    }
+
+    #######################################
+    ## End Interface methods
+    #######################################
+
 }

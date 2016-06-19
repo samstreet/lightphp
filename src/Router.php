@@ -9,6 +9,7 @@
 namespace LightPHP;
 
 use LightPHP\Exceptions\InvalidRouteCollectionException;
+use \LightPHP\Exceptions\RouteNotFoundException;
 use LightPHP\Interfaces\RouterInterface;
 
 
@@ -36,6 +37,10 @@ class Router implements RouterInterface
 
     public function addRoutes($routes)
     {
+        if(!is_array($routes)){
+            throw new InvalidRouteCollectionException();
+        }
+
         foreach($routes as $route){
             $this->add($route["name"], $route["route"], $route["callable"]);
         }
