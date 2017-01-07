@@ -11,8 +11,6 @@ namespace LightPHP\Interfaces;
 
 interface AppInterface
 {
-
-
     /**
      * @param $config array
      * @throws InvalidConfigurationFileException

@@ -1,9 +1,20 @@
 <?php
 
-/**
- The default autoloader configuration
- */
+function __autoload($class_name) {
+    $classesDir = array (
+        __DIR__.'/src/core/',
+        __DIR__.'/src/exceptions/',
+        __DIR__.'/src/interfaces/',
+        __DIR__.'/src/'
+    );
 
-if (file_exists('vendor/autoload.php')) {
-    $loader = include 'vendor/autoload.php';
+    $paths = [];
+
+    foreach ($classesDir as $directory) {
+        $files = glob($directory . "*.php");
+        foreach($files as $file){
+            $paths[] = $file;
+            include $file;
+        }
+    }
 }
