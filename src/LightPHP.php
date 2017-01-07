@@ -9,11 +9,12 @@
 namespace LightPHP;
 
 use LightPHP\Interfaces\AppInterface;
+use LightPHP\Core\Core;
 
 class LightPHP implements AppInterface
 {
 
-    protected $config = array();
+    protected $config = [];
 
     protected $router;
 
@@ -23,7 +24,7 @@ class LightPHP implements AppInterface
             $this->config = $this->validateConfig($config);
             $this->setUp();
         } catch (\Exception $e) {
-            die(var_dump($e->getMessage()));
+            die(var_dump($e->getMessage())); // display a better error
         }
     }
 
@@ -45,6 +46,7 @@ class LightPHP implements AppInterface
 
     public function validateConfig($config)
     {
+        $config = empty($config) ? Core::getConfig() : $config;
         if(!is_array($config) && !$config instanceof Traversable){
             throw new \LightPHP\Exceptions\InvalidConfigurationFileException();
         }

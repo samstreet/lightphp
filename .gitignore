@@ -1,0 +1,6 @@
+.DS_Store
+.idea
+data/
+!/composer.lock
+bin/
+.vagrant
