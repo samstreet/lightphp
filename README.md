@@ -1,12 +1,9 @@
-# lightphp
+# Lightphp
 
-lightweight framework (work in progress)
+## About
+A lightweight PHP framework built with scalability in mind. THIS IS STILL A WORK IN PROGRESS!
 
-.htaccess 
+## How to use
+A vagrant box is included, using php 7 on apache, simply just; 
+ ```vagrant up``` from the project root to get up and running
 
-```
-RewriteEngine on
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule . index.php [L]
-```
