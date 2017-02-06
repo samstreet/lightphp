@@ -30,8 +30,15 @@ class LightPHP implements AppInterface
 
     public function setUp()
     {
-        $this->router = new Router();
-        $this->router->addRoutes($this->config["routes"]);
+        try{
+            $this->router = new Router();
+            $this->router->addRoutes($this->config["routes"]);
+            Core::setServiceLocator($this->config["services"]);
+            die(var_dump(get_class_methods(Core::getServiceLocator()->get("core_service"))));
+        }catch (\Exception $e){
+
+        }
+
     }
 
     public function run()

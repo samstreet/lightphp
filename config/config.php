@@ -3,5 +3,8 @@
 namespace LightPHP;
 
 return [
-    "routes" => []
+    "routes" => [],
+    "services" => [
+        "core_service" => "LightPHP\Services\CoreService"
+    ]
 ];

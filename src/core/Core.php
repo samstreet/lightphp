@@ -8,7 +8,6 @@
 
 namespace LightPHP\Core;
 
-
 /**
  * Class Core
  * Handles all core logic
@@ -16,11 +15,32 @@ namespace LightPHP\Core;
  */
 class Core
 {
+    protected static $_serviceLocator = null;
+
     /**
      * Return the default config
      * @return mixed
      */
     public static function getConfig(){
         return include __DIR__  . "/../../config/config.php";
+    }
+
+    public static function setServiceLocator($services){
+
+        $registry = new ServiceRegistry();
+
+        foreach($services as $key => $service){
+            $registry->set($key, new $service());
+        }
+
+        self::$_serviceLocator = new \LightPHP\Core\ServiceLocator($registry);
+
+    }
+    public static function getServiceLocator(){
+        return self::$_serviceLocator;
+    }
+
+    public function getCoreService(){
+        return $this->getServiceLocator()->get("core_service");
     }
 }
