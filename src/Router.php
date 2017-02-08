@@ -8,6 +8,7 @@
 
 namespace LightPHP;
 
+use LightPHP\Core\View;
 use LightPHP\Exceptions\InvalidRouteCollectionException;
 use \LightPHP\Exceptions\RouteNotFoundException;
 use LightPHP\Interfaces\RouterInterface;
@@ -16,8 +17,9 @@ use LightPHP\Interfaces\RouterInterface;
 class Router implements RouterInterface
 {
 
-    protected $routes = array();
-    protected $methods = array();
+    protected $routes = [];
+    protected $methods = [];
+    protected $allowedMethods = [];
 
     protected $base = "";
 
@@ -30,9 +32,10 @@ class Router implements RouterInterface
      * @param $route string
      * @param $method string
      */
-    public function add($name, $route, $callable){
+    public function add($methods, $name, $route, $callable){
         $this->routes[$name] = $route;
         $this->methods[$name] = $callable;
+        $this->allowedMethods[$name] = $methods;
     }
 
     public function addRoutes($routes)
@@ -42,7 +45,7 @@ class Router implements RouterInterface
         }
 
         foreach($routes as $route){
-            $this->add($route["name"], $route["route"], $route["callable"]);
+            $this->add($route["method"], $route["name"], $route["route"], $route["callable"]);
         }
     }
 
@@ -51,8 +54,18 @@ class Router implements RouterInterface
 
         foreach ($this->routes as $key => $route) {
             if(preg_match("#^$route$#", $uri)){
-                call_user_func($this->methods[$key]);
+                if(is_callable($this->methods[$key])) call_user_func($this->methods[$key]);
+
+                if(is_array($this->methods[$key]) || $this->methods[$key] instanceof Traversable){
+                        $controller = $this->methods[$key]['controller'];
+                        $action = $this->methods[$key]['action'];
+                        $view = new View($this->methods[$key]['view']);
+
+                        return $view;
+                }
             }
+
+            return new View();
         }
     }
 

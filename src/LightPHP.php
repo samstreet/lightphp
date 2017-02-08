@@ -42,7 +42,6 @@ class LightPHP implements AppInterface
 
     public function run()
     {
-        die("the app is running");
         $this->router->dispatch();
     }
 
