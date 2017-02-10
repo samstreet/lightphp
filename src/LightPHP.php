@@ -8,6 +8,7 @@
 
 namespace LightPHP;
 
+use LightPHP\Core\Layout;
 use LightPHP\Interfaces\AppInterface;
 use LightPHP\Core\Core;
 use LightPHP\Core\Router;
@@ -18,6 +19,8 @@ class LightPHP implements AppInterface
     protected $config = [];
 
     protected $router;
+
+    protected $layout = "default";
 
     public function __construct($config)
     {
@@ -35,6 +38,8 @@ class LightPHP implements AppInterface
             $this->router = new Router();
             $this->router->addRoutes($this->config["routes"]);
             Core::setServiceLocator($this->config["services"]);
+            $layout =  new Layout($this->layout);
+            Core::setLayout($layout);
         }catch (\Exception $e){
 
         }

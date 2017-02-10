@@ -16,6 +16,7 @@ namespace LightPHP\Core;
 class Core
 {
     protected static $_serviceLocator = null;
+    protected static $_layout = null;
 
     /**
      * Return the default config
@@ -43,4 +44,22 @@ class Core
     public function getCoreService(){
         return $this->getServiceLocator()->get("core_service");
     }
+
+    /**
+     * @return null
+     */
+    public static function getLayout()
+    {
+        return self::$_layout;
+    }
+
+    /**
+     * @param null $layout
+     */
+    public static function setLayout($layout)
+    {
+        self::$_layout = $layout;
+    }
+
+
 }

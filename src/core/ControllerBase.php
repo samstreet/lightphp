@@ -11,11 +11,13 @@ use LightPHP\Core\Core;
 
 class ControllerBase
 {
-
     protected $view = null;
 
     public function setView($view){
-        return $this->view = new View($view);
+        $layout = Core::getLayout();
+        $view = new View($view);
+        $layout->setContent($view->getBody());
+        return $this->view = $layout;
     }
 
     public function getServiceLocator(){

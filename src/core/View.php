@@ -24,7 +24,7 @@ class View
         try {
             $file = __DIR__ . "/../MVC/View/" . $template . ".phtml";
             if (file_exists($file)) {
-                $this->render = $file;
+                $this->render = file_get_contents($file);
             } else {
                 throw new \Exception("");
             }
@@ -44,10 +44,12 @@ class View
         $this->data[$variable] = $value;
     }
 
+    public function getBody(){
+        return $this->render;
+    }
+
     public function __destruct()
     {
-        extract($this->data);
-        include($this->render);
 
     }
 }
