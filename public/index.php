@@ -1,14 +1,14 @@
 <?php
 
-use \LightPHP\LightPHP;
+use LightPHP\LightPHP;
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-define('ROOT', "/var/www/lightphp/");
+define('ROOT', "/var/www/");
 
-include __DIR__ . '/../init_autoloader.php';
+include ROOT . 'vendor/autoload.php';
 
 try {
     $app = new LightPHP([]);

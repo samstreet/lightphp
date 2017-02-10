@@ -6,15 +6,12 @@
  * Time: 19:55
  */
 
-namespace LightPHP;
+namespace LightPHP\Core;
 
-use LightPHP\Core\View;
+use LightPHP\Exceptions\ClassNotFoundException;
 use LightPHP\Exceptions\InvalidRouteCollectionException;
-use \LightPHP\Exceptions\RouteNotFoundException;
-use LightPHP\Interfaces\RouterInterface;
 
-
-class Router implements RouterInterface
+class Router
 {
 
     protected $routes = [];
@@ -53,27 +50,27 @@ class Router implements RouterInterface
         $uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : "/";
 
         foreach ($this->routes as $key => $route) {
-            if(preg_match("#^$route$#", $uri)){
-                if(is_callable($this->methods[$key])) call_user_func($this->methods[$key]);
 
+            if(preg_match("#^$route$#", $uri)){
                 if(is_array($this->methods[$key]) || $this->methods[$key] instanceof Traversable){
                         $controller = $this->methods[$key]['controller'];
                         $action = $this->methods[$key]['action'];
-                        $view = new View($this->methods[$key]['view']);
 
-                        return $view;
+                        if(class_exists($this->methods[$key]['controller'])){
+                            $controller = new $controller();
+                            $action = $action."Action";
+
+                            if(method_exists($controller, $action)){
+                                $controller->setView($this->methods[$key]['view']);
+                                return $controller->$action();
+                            }
+                        }
+
+                        throw new ClassNotFoundException("Error loading:" . $this->methods[$key]['controller'], 500);
                 }
             }
-
-            return new View();
         }
+
+        return new View(); // 404 by default
     }
-
-
-    public function validateRoute($route)
-    {
-        // TODO: Implement validateRoute() method.
-    }
-
-
 }

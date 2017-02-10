@@ -5,3 +5,4 @@ data/
 bin/
 .vagrant
 html/
+vendor/

@@ -6,7 +6,7 @@
  * Time: 17:30
  */
 
-namespace LightPHP;
+namespace LightPHP\Core;
 
 
 class Route

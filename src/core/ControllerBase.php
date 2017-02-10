@@ -7,9 +7,19 @@
  */
 
 namespace LightPHP\Core;
-
+use LightPHP\Core\Core;
 
 class ControllerBase
 {
+
+    protected $view = null;
+
+    public function setView($view){
+        return $this->view = new View($view);
+    }
+
+    public function getServiceLocator(){
+        return Core::getServiceLocator();
+    }
 
 }

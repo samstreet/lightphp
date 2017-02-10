@@ -10,6 +10,7 @@ namespace LightPHP;
 
 use LightPHP\Interfaces\AppInterface;
 use LightPHP\Core\Core;
+use LightPHP\Core\Router;
 
 class LightPHP implements AppInterface
 {

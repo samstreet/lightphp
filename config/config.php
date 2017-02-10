@@ -3,30 +3,42 @@
 namespace LightPHP;
 
 return [
-    "routes" => [
+    'routes' => [
         [
-            "method" => ["GET"],
-            "name" => "index",
-            "route" => "/home",
-            "callable" => [
-                "controller" => "",
-                "action" => "index",
-                "view" => "index/index"
+            'method' => ['GET'],
+            'name' => 'index',
+            'route' => '/',
+            'callable' => [
+                'controller' => 'LightPHP\MVC\Controller\IndexController',
+                'namespace' => 'LightPHP\MVC\Controller',
+                'action' => 'index',
+                'view' => 'index/index'
             ]
         ],
         [
-            "method" => ["GET"],
-            "name" => "about",
-            "route" => "/about",
-            "callable" => function(){
-                die("about");
+            'method' => ['GET'],
+            'name' => 'test',
+            'route' => '/test',
+            'callable' => [
+                'controller' => 'LightPHP\MVC\Controller\TestController',
+                'namespace' => 'LightPHP\MVC\Controller',
+                'action' => 'index',
+                'view' => 'test/index'
+            ]
+        ],
+        [
+            'method' => ['GET'],
+            'name' => 'about',
+            'route' => '/about',
+            'callable' => function(){
+                die('about'); // depreceated
             }
         ]
     ],
-    "services" => [
-        "core_service" => "LightPHP\Services\CoreService"
+    'services' => [
+        'core_service' => 'LightPHP\Services\CoreService'
     ],
-    "database" => [
+    'database' => [
         // any database logic here
     ]
 ];
