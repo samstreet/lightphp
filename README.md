@@ -42,5 +42,6 @@ Framework comes pre loaded with an index route and a core service.
  - Performance improvements
  - Check availble methods for a route
  - Authorization
+ - Dynamic routing
 
 
