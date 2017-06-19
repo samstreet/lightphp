@@ -28,7 +28,7 @@ class LightPHP implements AppInterface
             $this->config = $this->validateConfig($config);
             $this->setUp();
         } catch (\Exception $e) {
-            die(var_dump($e->getMessage())); // display a better error
+            throw $e;
         }
     }
 

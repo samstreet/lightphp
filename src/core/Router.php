@@ -48,24 +48,23 @@ class Router
 
     public function dispatch(){
         $uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : "/";
-
         foreach ($this->routes as $key => $route) {
 
             if(preg_match("#^$route$#", $uri)){
                 if(is_array($this->methods[$key]) || $this->methods[$key] instanceof Traversable){
                         $controller = $this->methods[$key]['controller'];
                         $action = $this->methods[$key]['action'];
-
+                        
                         if(class_exists($this->methods[$key]['controller'])){
                             $controller = new $controller();
                             $action = $action."Action";
-
+                            
                             if(method_exists($controller, $action)){
                                 $controller->setView($this->methods[$key]['view']);
                                 return $controller->$action();
                             }
                         }
-
+                        
                         throw new ClassNotFoundException("Error loading:" . $this->methods[$key]['controller'], 500);
                 }
             }
